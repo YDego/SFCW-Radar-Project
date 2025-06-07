@@ -1,11 +1,16 @@
 function [amp, phase] = generate_amp_n_phase(w, sigma, mu, epsilon, r)
     
-    sub_function = generate_sub_function(w, epsilon, sigma);
+    amp = zeros(size(w));
+    phase = zeros(size(w));
 
-    alpha = sigma * sqrt((mu / 2 / epsilon) ./ sub_function);
-    beta = w .* sqrt((mu * epsilon / 2) * sub_function);
+    for i = 1:numel(w)
+        temp = 1 + sqrt(1 + (sigma / (w(i) * epsilon)) ^ 2);
 
-    phase = -beta .* (2 * r);
-    amp = exp(-alpha .*  2 * r);
+        alpha = sigma * sqrt((mu / (2 * epsilon)) / temp);
+        beta = w(i) * sqrt((mu * epsilon / 2) * temp);
+        
+        amp(i) = exp(-alpha * 2 * r);
+        phase(i) = -beta * (2 * r);
+    end
 
 end
