@@ -55,7 +55,7 @@ xlabel('Frequency (GHz)');
 ylabel('Amplitude (dB)');
 title('Amplitude vs Frequency');
 
-subplot(2, 1, 2+);
+subplot(2, 1, 2);
 plot(f(cut_indices)*1e-9, phase(cut_indices));
 xlabel('Frequency (GHz)');
 ylabel('Phase (radians)');
