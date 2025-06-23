@@ -7,8 +7,8 @@ clc
 e_0 = 8.8541e-12;           % [F/m]
 mu_0 = 1.2566e-6;           % [N/(A^2)]
 e_r = 1.00054;
-mu_r = 1;
-sigma = 1e-9;               % conductivity [S/m]
+mu_r = 1.2566;
+sigma = 5.96e7;               % conductivity [S/m]
 epsilon = e_r * e_0;
 mu = mu_r * mu_0;
 c = 1/sqrt(mu * epsilon);
@@ -111,7 +111,7 @@ end
 
 
 % inputs
-r_values = [10, 5, 50, 40, 70];   % target distances [m]
+r_values = [30, 30.05];   % target distances [m]
 mags = zeros(size(t));
 
 figure(3);
@@ -132,9 +132,7 @@ end
 num_train = 12;
 num_guard = 2;
 alpha = 10;
-detection = cfar_detect(mags, num_train, num_guard, alpha); 
-
-
+[detection, threshold] = cfar_detect(mags, num_train, num_guard, alpha); 
 
 % Plot
 x_axis = t.* c;
@@ -142,12 +140,13 @@ plot(x_axis, mags, 'b');  % Impulse response
 hold on;
 
 % Mark detections
-plot(x_axis(detection == 1) , mags(detection == 1), 'ro', 'MarkerFaceColor', 'r');
+% plot(x_axis, threshold, 'g');
+% plot(x_axis(detection == 1) , mags(detection == 1), 'ro', 'MarkerFaceColor', 'r');
 hold off;
 
 xlabel('Distance from target (m)');
 ylabel('Amplitude');
-title(sprintf('Impulse Response of multiple targets'));
+title(sprintf(['Impulse Response of multiple targets [m]: ', mat2str(r_values)]));
     
 
 
